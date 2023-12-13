@@ -134,7 +134,9 @@ public class GameManager : MonoBehaviour
             playerAnimator.SetBool("BeginGame_b", true);
             playerAnimator.SetFloat("Speed_f", 1.0f);
             dirtSplatter.Play();
-            
+            audioSource.Play();
+
+            // Restart countdown
             InvokeRepeating("TimeCountdown", 1, 1);
         }
     }
