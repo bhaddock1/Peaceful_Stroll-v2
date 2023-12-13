@@ -2242,7 +2242,7 @@ MonoBehaviour:
   spawnManager: {fileID: 375676908}
   playerAnimator: {fileID: 1309203826}
   dirtSplatter: {fileID: 91475539}
-  DebugToggle: 1
+  DebugToggle: 0
 --- !u!1 &3488927012946955411
 GameObject:
   m_ObjectHideFlags: 0
