@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     public static float score;
     private AudioSource audioSource;
     private int timeRemaining = 60;
-    private int miniGameCooldown = 5;
+    private int miniGameCooldown = 10;
     public static bool timedGame = false;
     private UIController uiControllerScript;
     private QuizController quizControllerScript;
