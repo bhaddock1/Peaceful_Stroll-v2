@@ -23,10 +23,10 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    // Called from Invoke Repeating
     private void SpawnObstacle()
     {
-        if(!GameManager.gameOver)
+        if(!GameManager.gameOver || GameManager.gameInProgress)
         {
             Instantiate(obstaclePrefab, spawnPos, obstaclePrefab.transform.rotation);
         }

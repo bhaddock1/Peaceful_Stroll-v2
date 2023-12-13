@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     public static float score;
     private AudioSource audioSource;
     private int timeRemaining = 60;
-    private int miniGameCooldown = 10;
+    private int miniGameCooldown = 5;
     public static bool timedGame = false;
     private UIController uiControllerScript;
     private QuizController quizControllerScript;
@@ -80,11 +80,11 @@ public class GameManager : MonoBehaviour
         startButton.SetActive(false);
         
         if(timedGame)
-        {
-            
+        {            
             timeRemainingText.gameObject.SetActive(true);
             InvokeRepeating("TimeCountdown", 1,1);
         }
+
         gameOver = false;
 
         spawnManager.SetActive(true);
@@ -108,8 +108,9 @@ public class GameManager : MonoBehaviour
     // This is called from the TimeCountdown Invoke Repeating
     private void StartKahootGame()
     {
-        // Stops all movement in main scene
+        // Stops all movement and spawning in main scene
         QuizController.backToGame = false;
+        gameInProgress = false;
         speed = 0;
         playerAnimator.SetBool("BeginGame_b", false);
         playerAnimator.SetFloat("Speed_f", 0f);
@@ -129,12 +130,20 @@ public class GameManager : MonoBehaviour
             QuizController.backToGame = false;
             miniGameCooldown = 10;
 
-            // Resets player transform
+            // Delete any existing Obstacles in scene
+            Obstacle[] obstaclesObjects = FindObjectsOfType<Obstacle>();
+            foreach (Obstacle obj in obstaclesObjects)
+            {
+                Destroy(obj.gameObject);
+            }
+
+            // Resets player transform and begins spawning
             speed = 30;
             playerAnimator.SetBool("BeginGame_b", true);
             playerAnimator.SetFloat("Speed_f", 1.0f);
             dirtSplatter.Play();
             audioSource.Play();
+            gameInProgress = true;
 
             // Restart countdown
             InvokeRepeating("TimeCountdown", 1, 1);
