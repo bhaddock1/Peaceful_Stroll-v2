@@ -35,6 +35,8 @@ public class QuizQuestion : ScriptableObject
             question.Replace("?", ""),
             answers[correctAnswer]);
 
+/******* AssetDatabase CAUSED ERROR IN BUILD *********************************
+
         string assetPath = AssetDatabase.GetAssetPath(this.GetInstanceID());
         string shouldEndWith = "/" + desiredName + ".asset";
         if (assetPath.EndsWith(shouldEndWith) == false)
@@ -43,5 +45,8 @@ public class QuizQuestion : ScriptableObject
             AssetDatabase.RenameAsset(assetPath, desiredName);
             AssetDatabase.SaveAssets();
         }
+
+**************************************************************/
+
     }
 }
