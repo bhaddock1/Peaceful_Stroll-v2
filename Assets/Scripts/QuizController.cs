@@ -44,7 +44,10 @@ public class QuizController : MonoBehaviour
         if (delayBetweenQuestions <= 0)
         {
             backToGame = true;
-            SceneManager.LoadScene(0);
+            if (SceneManager.GetSceneByName("KahootScene").isLoaded)
+            {
+                SceneManager.UnloadSceneAsync("KahootScene");
+            }
         }
 
     }

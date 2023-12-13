@@ -8,18 +8,24 @@ public class MoveLeft : MonoBehaviour
     private float leftBound;
     private PlayerController playerControllerScript;
 
+    // Set initial values and get player controller
     private void Start()
     {
-        speed = 30;
+        playerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
+        speed = GameManager.speed;
         leftBound = -15;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        playerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
+        ControlTransform();
+    }
 
-        if(!GameManager.gameOver && !GameManager.miniGame)
+    private void ControlTransform()
+    {
+        speed = GameManager.speed;
+        if (!GameManager.gameOver)
         {
             transform.Translate(Vector3.left * Time.deltaTime * speed);
         }
@@ -28,6 +34,5 @@ public class MoveLeft : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
     }
 }

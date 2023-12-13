@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainScene.unity
+    guid: 2c36c077853ea4d35a33072a7ec612cc
+  - enabled: 1
+    path: Assets/Scenes/KahootScene.unity
+    guid: 709ed3052c38b421fae02489f12cbbaa
+  - enabled: 0
     path: Assets/Scenes/Starter_Scene.unity
     guid: dc8c9f3efd746429fa6f9482dc779492
-  - enabled: 1
-    path: Assets/Scenes/Kahoot Scene.unity
-    guid: 709ed3052c38b421fae02489f12cbbaa
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/RestOfScene.unity
     guid: 2c310ca9e2f984f37a3bfd5930034460
   m_configObjects: {}

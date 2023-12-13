@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] Animator playerAnimator;
     [SerializeField] ParticleSystem dirtSplatter;
     public static bool gameOver = true;
-    public static bool miniGame = false;
     public static float score;
     private AudioSource audioSource;
     private int timeRemaining = 60;
@@ -33,7 +32,8 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static float speed = 30f;
 
-    
+    [Header("Debug Tags")]
+    public bool DebugToggle;
 
 
     // Start is called before the first frame update
@@ -47,11 +47,8 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         BackToGame();
-        GameInProgress();
         DisplayUI();
         EndGame();
-
-        
     }
 
     private void DisplayUI()
@@ -70,27 +67,9 @@ public class GameManager : MonoBehaviour
                timeRemainingText.text = "Game\nOver";
            }
         }
-        
     }
 
-    private void TimeCountdown()
-    {
-        miniGameCooldown--;
-        timeRemaining--;
-        if(miniGameCooldown <= 0)
-        {
-           StartMiniGame();
-            CancelInvoke("TimeCountdown");
-        }
-
-        if(timeRemaining <= 0)
-        {
-            CancelInvoke("TimeCountdown");
-            
-        }
-
-    }
-
+    // This is called when the player presses the start button
     public void StartGame()
     {
         audioSource.Play();
@@ -115,60 +94,80 @@ public class GameManager : MonoBehaviour
         dirtSplatter.Play();
     }
 
-    private void EndGame()
-    {
-        
-        if(gameOver || timeRemaining == 0)
-        {
-            gameOver = true;
-            playerAnimator.SetBool("BeginGame_b", false);
-            playerAnimator.SetFloat("Speed_f", 0f);
-            audioSource.Stop();
-            CancelInvoke();
-            timeRemainingText.text = "Game\nOver";
-        }
-        
-    }
-
     public void SetTimed(bool timed)
     {
         timedGame = timed;
     }
 
+    // ???
     public static void ChangeScore(float change)
     {
         score += change;
     }
 
-    private void StartMiniGame()
+    // This is called from the TimeCountdown Invoke Repeating
+    private void StartKahootGame()
     {
-        gameInProgress = true;
-        SceneManager.LoadScene(1);
+        // Stops all movement in main scene
         QuizController.backToGame = false;
-        
+        speed = 0;
+        playerAnimator.SetBool("BeginGame_b", false);
+        playerAnimator.SetFloat("Speed_f", 0f);
+        audioSource.Stop();
+        dirtSplatter.Stop();
+        CancelInvoke();
 
-        
+        // Opens Kahoos scene as second scene
+        SceneManager.LoadScene("KahootScene", LoadSceneMode.Additive);        
     }
 
-    private void GameInProgress()
-    {
-        if(gameInProgress)
-        {
-            timeRemainingText.gameObject.SetActive(true);
-            toggleGroup.SetActive(false);
-            startButton.SetActive(false);
-        }
-    }
     public void BackToGame()
     {
         if (QuizController.backToGame)
         {
+            // Toggles Back-to-Game off and restarts timer
+            QuizController.backToGame = false;
+            miniGameCooldown = 10;
+
+            // Resets player transform
+            speed = 30;
             playerAnimator.SetBool("BeginGame_b", true);
             playerAnimator.SetFloat("Speed_f", 1.0f);
-            miniGameCooldown = 10;
+            dirtSplatter.Play();
+            
             InvokeRepeating("TimeCountdown", 1, 1);
-            Debug.Log("working");
-        };
+        }
+    }
+
+    private void EndGame()
+    {
+        if (gameOver || timeRemaining == 0)
+        {
+            gameOver = true;
+            playerAnimator.SetBool("BeginGame_b", false);
+            playerAnimator.SetFloat("Speed_f", 0f);
+            audioSource.Stop();
+            timeRemainingText.text = "Game\nOver";
+        }
+    }
+
+    // This is called from and Invoke Repeating
+    private void TimeCountdown()
+    {
+        miniGameCooldown--;
+        timeRemaining--;
+        if (miniGameCooldown <= 0)
+        {
+            StartKahootGame();
+            CancelInvoke("TimeCountdown");
+        }
+
+        if (timeRemaining <= 0)
+        {
+            CancelInvoke("TimeCountdown");
+
+        }
+
     }
 }
 
