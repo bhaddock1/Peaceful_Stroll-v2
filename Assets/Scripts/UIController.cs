@@ -61,10 +61,13 @@ public class UIController : MonoBehaviour
     {
         correctAnswerPopup.SetActive(true);
         right = true;
+        GameManager.ChangeScore(10f);
     }
 
     private void ShowWrongAnswerPopup()
     {
         wrongAnswerPopup.SetActive(true);
+        right = false;
+        GameManager.ChangeScore(-10f);
     }
 }

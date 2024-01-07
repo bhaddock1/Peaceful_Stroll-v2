@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     public static bool gameInProgress;
     private static GameObject lastObject;
     private static GameManager instance;
-    public static float speed = 30f;
+    public static float speed = 24f;
 
     [Header("Debug Tags")]
     public bool DebugToggle;
@@ -136,9 +136,16 @@ public class GameManager : MonoBehaviour
             {
                 Destroy(obj.gameObject);
             }
-
+            if(UIController.right)
+            {
+                    speed = 20;
+            }
+            if(!UIController.right)
+            {
+                speed = 28;
+            }
             // Resets player transform and begins spawning
-            speed = 30;
+            
             playerAnimator.SetBool("BeginGame_b", true);
             playerAnimator.SetFloat("Speed_f", 1.0f);
             dirtSplatter.Play();
